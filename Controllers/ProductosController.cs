@@ -28,6 +28,7 @@ namespace Relaciones.Controllers
                 .Include(p => p.Marca)
                 .Include(p => p.Proveedor)
                 .Include(p => p.Zona)
+                .OrderByDescending(p => p.Id)
                 .ToListAsync();
 
             return data;
