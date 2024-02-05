@@ -35,6 +35,34 @@ namespace Relaciones.Controllers
         }
 
 
+        [HttpPost]
+        [Route("proveedor/{id}")]
+        public async Task<List<Producto>> getProductosByProveedor(int id)
+        {
+
+            if(id == 0){
+                var data1 = await DB.Productos
+          .Include(p => p.Presentacion)
+          .Include(p => p.Marca)
+          .Include(p => p.Proveedor)
+          .Include(p => p.Zona)
+          .OrderByDescending(p => p.Id)
+          .ToListAsync();
+
+                return data1;
+            }
+            var data = await DB.Productos
+                .Include(p => p.Presentacion)
+                .Include(p => p.Marca)
+                .Include(p => p.Proveedor)
+                .Include(p => p.Zona)
+                .Where(p => p.ProveedorId == id)
+                .OrderByDescending(p => p.Id)
+                .ToListAsync();
+
+            return data;
+        }
+
 
         [HttpPost]
         public IActionResult createProduct([FromBody] ProductoCreateDTO productoDTO)
